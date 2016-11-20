@@ -13,13 +13,15 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
   
 // Create chat bot
-var bot = new builder.ChatConnector({
+var connector = new builder.ChatConnector({
     appId: '5f4da2a9-e58c-4711-b8ad-f2eb72bb91bd',
     appPassword: 'zOXoL6JsdN6Khkc28b9QqXL'
 });
 
 var recognizer = new builder.LuisRecognizer('https://api.projectoxford.ai/luis/v2.0/apps/7c8788eb-1e3f-46d9-9283-fc24f3f164c9?subscription-key=6a64dd5e73844bafaa710bd1773a3b37&verbose=true&q=');
 var intents = new builder.IntentDialog({ recognizers: [recognizer] });
+
+var bot = new builder.UniversalBot(connector);
 
 bot.dialog('/', intents);
 
