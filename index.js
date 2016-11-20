@@ -50,4 +50,4 @@ intents.onBegin(function (session, args, next) {
 intents.onDefault(builder.DialogAction.send("I don't understand."));
 
 
-server.post('/api/messages',bot.verifyBotFramework(),bot.listen());
+server.post('/api/messages',connector.listen());
