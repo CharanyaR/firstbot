@@ -11,9 +11,9 @@ function getRecipe(ingredients, callback) {
         if (results) {
             var response = [];
             for(var i=0;i<results.length;i++){
-                response.push(results[i].title + ':' + results[i].source_url);
+                response.push(results[i].title + ':' + results[i].source_url + ' ');
             }
-            callback(`Recipes matching your ingredients are ${response}`);
+            callback(`Recipes matching your ingredient are - ${response}`);
         } else {
             callback("Couldn't retrieve recipe.");
         }
