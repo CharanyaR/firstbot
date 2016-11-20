@@ -13,16 +13,17 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
   
 // Create chat bot
-var bot = new builder.BotConnectorBot({
+var bot = new builder.ChatConnector({
     appId: '5f4da2a9-e58c-4711-b8ad-f2eb72bb91bd',
     appPassword: 'zOXoL6JsdN6Khkc28b9QqXL'
 });
 
-var dialog = new builder.LuisDialog('https://api.projectoxford.ai/luis/v2.0/apps/7c8788eb-1e3f-46d9-9283-fc24f3f164c9?subscription-key=6a64dd5e73844bafaa710bd1773a3b37&verbose=true&q=');
+var recognizer = new builder.LuisRecognizer('https://api.projectoxford.ai/luis/v2.0/apps/7c8788eb-1e3f-46d9-9283-fc24f3f164c9?subscription-key=6a64dd5e73844bafaa710bd1773a3b37&verbose=true&q=');
+var intents = new builder.IntentDialog({ recognizers: [recognizer] });
 
-bot.add('/',dialog);
+bot.dialog('/', intents);
 
-dialog.on('GetRecipe', [
+intents.matches('GetRecipe', [
     (session, args, next) => {
         var ingredientsEntity = builder.EntityRecognizer.findEntity(args.entities, 'Ingedients');
         if (ingredientsEntity) {
@@ -39,7 +40,12 @@ dialog.on('GetRecipe', [
     }
 ]);
 
-dialog.onDefault(builder.DialogAction.send("I don't understand."));
+intents.onBegin(function (session, args, next) {
+    session.send("Hello!! What recipe are you looking for the day??");
+    next();
+});
+
+intents.onDefault(builder.DialogAction.send("I don't understand."));
 
 
 server.post('/api/messages',bot.verifyBotFramework(),bot.listen());
