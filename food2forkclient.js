@@ -9,7 +9,11 @@ function getRecipe(ingredients, callback) {
        
         var results = obj.recipes;
         if (results) {
-            callback(`Recipes matching your ingredients are ${results.title} - ${results.source_url}`);
+            var response = [];
+            for(var i=0;i<results.length;i++){
+                response.push(results[i].title + ':' + results[i].source_url);
+            }
+            callback(`Recipes matching your ingredients are ${response}`);
         } else {
             callback("Couldn't retrieve recipe.");
         }
