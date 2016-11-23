@@ -32,7 +32,7 @@ intents.matches('GetRecipe', [
             logger.info("Ingredients entered:"+ingredientsEntity.entity);
             return next({ response: ingredientsEntity.entity });
         } else {
-            builder.Prompts.text(session, 'What ingredients?');
+            builder.Prompts.text(session, 'Hello!!! Enter the ingredients you have - I will suggest you recipes.');
         }
     },
     (session, results) => {
@@ -42,10 +42,10 @@ intents.matches('GetRecipe', [
     }
 ]);
 
-intents.onBegin(function (session, args, next) {
+/*intents.onBegin(function (session, args, next) {
     session.send("Hello!! What recipe are you looking for the day??");
     next();
-});
+});*/
 
 intents.onDefault(builder.DialogAction.send("I don't understand."));
 
